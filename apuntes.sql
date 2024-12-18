@@ -28,6 +28,47 @@ BEGIN
 END//
 DELIMITER ;
 
+
+-- Procedimiento para mover stock de un producto a otro
+DELIMITER $$
+CREATE PROCEDURE MoverStock (
+    IN p_productoOrigen INT,
+    IN p_productoDestino INT,
+    IN p_cantidad INT
+)
+BEGIN
+    DECLARE error_ocurrio BOOL DEFAULT FALSE;
+
+    -- Manejo de errores
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Si ocurre un error, deshacer la transacción
+        SET error_ocurrio = TRUE;
+        ROLLBACK;
+    END;
+
+    -- Iniciar la transacción
+    START TRANSACTION;
+
+    -- Restar la cantidad del producto origen
+    UPDATE Productos
+    SET stock = stock - p_cantidad
+    WHERE id = p_productoOrigen;
+
+    -- Sumar la cantidad al producto destino
+    UPDATE Productos
+    SET stock = stock + p_cantidad
+    WHERE id = p_productoDestino;
+
+    -- Confirmar la transacción si no hubo errores
+    IF NOT error_ocurrio THEN
+        COMMIT;
+    END IF;
+END$$
+DELIMITER ;
+
+
+
 -- ==========================
 -- 2. TRIGGERS
 -- ==========================
