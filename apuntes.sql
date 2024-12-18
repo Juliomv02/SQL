@@ -30,7 +30,7 @@ DELIMITER ;
 
 
 -- Procedimiento para mover stock de un producto a otro
-DELIMITER $$
+DELIMITER //
 CREATE PROCEDURE MoverStock (
     IN p_productoOrigen INT,
     IN p_productoDestino INT,
@@ -64,7 +64,7 @@ BEGIN
     IF NOT error_ocurrio THEN
         COMMIT;
     END IF;
-END$$
+END//
 DELIMITER ;
 
 
