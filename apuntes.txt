@@ -1,5 +1,3 @@
--- APUNTES: SQL PARA EXAMEN SOBRE LA BASE DE DATOS
-
 -- ==========================
 -- 1. PLANTILLAS PARA PROCEDIMIENTOS ALMACENADOS
 -- ==========================
