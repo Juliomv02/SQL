@@ -5,7 +5,7 @@
 -- ==========================
 
 -- Plantilla básica para un procedimiento de inserción
-DELIMITER $$
+DELIMITER //
 CREATE PROCEDURE InsertarUsuario (
     IN p_email VARCHAR(255),
     IN p_contraseña VARCHAR(255),
@@ -14,11 +14,11 @@ CREATE PROCEDURE InsertarUsuario (
 BEGIN
     INSERT INTO Usuarios (email, contraseña, nombre)
     VALUES (p_email, p_contraseña, p_nombre);
-END$$
+END//
 DELIMITER ;
 
 -- Plantilla para actualizar un registro
-DELIMITER $$
+DELIMITER //
 CREATE PROCEDURE ActualizarSalarioEmpleado (
     IN p_empleadoId INT,
     IN p_nuevoSalario DECIMAL(10, 2)
@@ -27,7 +27,7 @@ BEGIN
     UPDATE Empleados
     SET salario = p_nuevoSalario
     WHERE id = p_empleadoId;
-END$$
+END//
 DELIMITER ;
 
 -- ==========================
@@ -35,18 +35,18 @@ DELIMITER ;
 -- ==========================
 
 -- Plantilla para un trigger que registre cambios en una tabla
-DELIMITER $$
+DELIMITER //
 CREATE TRIGGER AntesDeInsertarPedido
 BEFORE INSERT ON Pedidos
 FOR EACH ROW
 BEGIN
     INSERT INTO Logs (accion, fecha, descripcion)
     VALUES ('INSERT', NOW(), CONCAT('Pedido insertado con ID: ', NEW.id));
-END$$
+END//
 DELIMITER ;
 
 -- Plantilla para un trigger que actualice automáticamente otra tabla
-DELIMITER $$
+DELIMITER //
 CREATE TRIGGER ActualizarStockProducto
 AFTER INSERT ON LineasPedido
 FOR EACH ROW
@@ -54,7 +54,7 @@ BEGIN
     UPDATE Productos
     SET stock = stock - NEW.cantidad
     WHERE id = NEW.productoId;
-END$$
+END//
 DELIMITER ;
 
 -- ==========================
@@ -62,7 +62,7 @@ DELIMITER ;
 -- ==========================
 
 -- Función para calcular el total de un pedido
-DELIMITER $$
+DELIMITER //
 CREATE FUNCTION CalcularTotalPedido (
     p_pedidoId INT
 ) RETURNS DECIMAL(10, 2)
@@ -73,11 +73,11 @@ BEGIN
     JOIN Productos p ON lp.productoId = p.id
     WHERE lp.pedidoId = p_pedidoId;
     RETURN total;
-END$$
+END//
 DELIMITER ;
 
 -- Función para obtener el nombre completo de un cliente
-DELIMITER $$
+DELIMITER //
 CREATE FUNCTION ObtenerNombreCliente (
     p_clienteId INT
 ) RETURNS VARCHAR(255)
@@ -87,7 +87,7 @@ BEGIN
     FROM Clientes
     WHERE id = p_clienteId;
     RETURN nombreCliente;
-END$$
+END//
 DELIMITER ;
 
 -- ==========================
